@@ -36,8 +36,8 @@
                     <tr>
                         <td>$no++</td>
                         <td>$value['username']</td>
-                        <td>$value['fullname']</td>
-                        <td>$value['jobtitle']</td>
+                        <td>$value['name']</td>
+                        <td>$value['job']</td>
                         <td><a href="edit.php?username=<?php echo $value['username'] ?>">Edit</a></td>
                         <td><a href="delete.php?username=<?php echo value['username'] ?>">Delete</a></td>
                     </tr>

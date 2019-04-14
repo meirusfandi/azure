@@ -34,10 +34,10 @@
         if (isset($_POST['submit'])){
             try {
                 $name = $_POST['name'];
-                $email = $_POST['email'];
-                $job = $_POST['job'];
+                $username = $_POST['username'];
+                $job = $_POST['jobtitle'];
                 // Insert data
-                $sql_insert = "INSERT INTO user (name, email, job) 
+                $sql_insert = "INSERT INTO user (name, username, job) 
                             VALUES (?,?,?)";
                 $stmt = $connect->prepare($sql_insert);
                 $stmt->bindValue(1, $name);
