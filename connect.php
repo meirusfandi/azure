@@ -18,17 +18,5 @@
     } catch(Exception $e) {
         echo "Failed Connect Database : " . $e;
     }
-
-    //local db
-    // $hostname = "localhost";
-    // $username = "root";
-    // $pass = "";
-    // $dbname = "transferin";
-
-    // $connect = mysqli_connect($hostname, $username, $pass, $dbname);
-
-    // if (mysqli_connect_errno()){
-    //     echo "Connect database failed : ".mysqli_connect_errno();
-    // }
     
 ?>

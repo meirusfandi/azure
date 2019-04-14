@@ -10,7 +10,7 @@
     <h1>Tambah Data baru</h1>
     <hr>
     <a href="index.php">Back</a>
-    <form action="add_action.php" method="post">
+    <form action="add.php" method="post">
         <div class="row">
             <label for="username">Username</label>
             <input type="text" name="username">
@@ -28,5 +28,27 @@
 
         <input type="submit" value="Save">
     </form>
+
+    <?php 
+        include 'connect.php';
+        if (isset($_POST['submit'])){
+            try {
+                $name = $_POST['name'];
+                $email = $_POST['email'];
+                $job = $_POST['job'];
+                // Insert data
+                $sql_insert = "INSERT INTO user (name, email, job) 
+                            VALUES (?,?,?)";
+                $stmt = $connect->prepare($sql_insert);
+                $stmt->bindValue(1, $name);
+                $stmt->bindValue(2, $username);
+                $stmt->bindValue(3, $job);
+                $stmt->execute();
+            } catch(Exception $e) {
+                echo "Failed: " . $e;
+            }
+            echo "<h3>Your're registered!</h3>";
+        }
+    ?>
 </body>
 </html>
