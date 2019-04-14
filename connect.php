@@ -2,7 +2,7 @@
     //upload to github
     $hostname = "transferin.database.windows.net";
     $username = "transferin";
-    $pass = "transferin";
+    $pass = "mr_Condong1105";
     $dbname = "transferin";
 
     try {
