@@ -11,4 +11,6 @@
     $query->bindValue(2, $fullname);
     $query->bindValue(3, $jobtitle);
     $query->execute();
+
+    header("index.php")
 ?>
