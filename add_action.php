@@ -12,5 +12,7 @@
     $query->bindValue(3, $jobtitle);
     $query->execute();
 
-    header("index.php")
+    echo "Add data Successfully";
+    <br>
+    <a href="index.php">Back</a>
 ?>
