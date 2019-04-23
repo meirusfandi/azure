@@ -1,50 +1,3 @@
-<?php 
-
-    //include vendor folder and random_string file
-    require_once 'vendor/autoload.php';
-    require_once 'random_string.php';
-
-    //import Microsoft Azure Storage 
-    use MicrosoftAzure\Storage\Blob\BlobRestProxy;
-    use MicrosoftAzure\Storage\Common\Exceptions\ServiceException;
-    use MicrosoftAzure\Storage\Blob\Models\ListBlobsOptions;
-    use MicrosoftAzure\Storage\Blob\Models\CreateContainerOptions;
-    use MicrosoftAzure\Storage\Blob\Models\PublicAccessType;
-
-    //create connection string
-    $connect = "DefaultEndpointsProtocol=https;AccountName=fansdev;AccountKey=QFChV4ExeYoe/GCcpbnAagmKnFOvW8y7Lu3dwjyhhnrk/u38o9rLyjoFNXtMLPAO4dKDayHl+nxQPn+jtwKpow==;EndpointSuffix=core.windows.net";
-
-    //create container name
-    $containername = "fansdev".generateRandomString();
-
-    // Create blob client.
-    $blobclient = BlobRestProxy::createBlobService($connect);
-
-    if (isset($_POST['upload'])){
-        $filename = strtolower($_FILES['image']['name']);
-        $contentfile = fopen($_FILES['image']['tmp_name'], 'r');
-
-        //upload blob file
-        $blobclient->createBlockBlob($containername, $filename, $contentfile);
-
-        //redirect using header
-        header("Location : index.php");
-    } else if (isset($_POST['analyze'])){
-        if (isset($_POST['imageurl'])){
-            $imageurl = $_POST['imageurl'];
-        } else {
-            alert('');
-        }
-    }
-
-    //get blob list from blob storage
-    $listblob = new ListBlobsOptions();
-    $listblob->setPrefix("fansdev");
-
-    //get blob as container name
-    $result = $blobclient->listBlobs($containername, $listblob);
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -179,5 +132,53 @@
             });
         };
     </script>
+
+    <!-- PHP handling section -->
+    <?php 
+
+        //include vendor folder and random_string file
+        require_once 'vendor/autoload.php';
+        require_once 'random_string.php';
+
+        //import Microsoft Azure Storage 
+        use MicrosoftAzure\Storage\Blob\BlobRestProxy;
+        use MicrosoftAzure\Storage\Common\Exceptions\ServiceException;
+        use MicrosoftAzure\Storage\Blob\Models\ListBlobsOptions;
+        use MicrosoftAzure\Storage\Blob\Models\CreateContainerOptions;
+        use MicrosoftAzure\Storage\Blob\Models\PublicAccessType;
+
+        //create connection string
+        $connect = "DefaultEndpointsProtocol=https;AccountName=fansdev;AccountKey=QFChV4ExeYoe/GCcpbnAagmKnFOvW8y7Lu3dwjyhhnrk/u38o9rLyjoFNXtMLPAO4dKDayHl+nxQPn+jtwKpow==;EndpointSuffix=core.windows.net";
+
+        //create container name
+        $containername = "fansdev".generateRandomString();
+
+        // Create blob client.
+        $blobclient = BlobRestProxy::createBlobService($connect);
+
+        if (isset($_POST['upload'])){
+            $filename = strtolower($_FILES['image']['name']);
+            $contentfile = fopen($_FILES['image']['tmp_name'], 'r');
+
+            //upload blob file
+            $blobclient->createBlockBlob($containername, $filename, $contentfile);
+
+            //redirect using header
+            header("Location : index.php");
+        } else if (isset($_POST['analyze'])){
+            if (isset($_POST['imageurl'])){
+                $imageurl = $_POST['imageurl'];
+            } else {
+                alert('');
+            }
+        }
+
+        //get blob list from blob storage
+        $listblob = new ListBlobsOptions();
+        $listblob->setPrefix("fansdev");
+
+        //get blob as container name
+        $result = $blobclient->listBlobs($containername, $listblob);
+    ?>
 </body>
 </html>
