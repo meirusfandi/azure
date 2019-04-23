@@ -11,80 +11,6 @@
 
 <body>
 
-    <!-- Form upload image section -->
-    <h2>Form Upload File Image | Azure Blob Storage</h2>
-    <div class="row">
-        <div class="col-md-12">
-            <label for="uploadlabel">Upload Image</label>
-            <form action="index.php" enctype="multipart/form-data" method="post">
-                <input type="file" name="image">
-                <input type="submit" name="upload" value="Upload Image">
-            </form>
-        </div>
-    </div>
-
-    <!-- Form show image from blob storage section -->
-    <h2>List Uploaded Data | Azure Blob Storage</h2>
-    <div class="row">
-        <div class="col-md-12">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>No. </th>
-                        <th>Nama File</th>
-                        <th>Link Url Image</th>
-                        <th>Preview</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <?php 
-                        $i = 1;
-                        do {
-                            foreach ($result->getBlobs() as $blobfile){
-                        ?>
-                            <tr>
-                                <td><?php echo $i; ?></td>
-                                <td><?php echo $blobfile->getName();?></td>
-                                <td><?php echo $blobfile->getUrl();?></td>
-                                <td width="100" height="100"><img src="<?php echo $blobfile->getUrl(); ?>" alt=""></td>
-                                <td>
-                                    <form action="index.php" method="post">
-                                        <input type="hidden" name="imageurl" value="<?php echo $blobfile->getUrl(); ?>">
-                                        <input type="submit" class="btn btn-primary" name="analyze" value="Analyze Image">
-                                    </form>
-                                </td>
-                            </tr>
-                        <?php 
-                            $i++;
-                            }
-                            $listblob->setContinuationToken($result->getContinuationToken());
-                        } while($result->getContinuationToken());
-                    ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    
-    <!-- Form Show response from Computer Vision -->
-    <h2>Show Respon From Analyze | Computer Vision</h2>
-    <div class="row">
-        <div id="wrapper" style="width:1020px; display:table;">
-            <div id="jsonOutput" style="width:600px; display:table-cell;">
-                Response:
-                <br><br>
-                <textarea id="responseTextArea" class="UIInput"
-                    style="width:580px; height:400px;"></textarea>
-            </div>
-            <div id="imageDiv" style="width:420px; display:table-cell;">
-                Source image:
-                <br><br>
-                <img id="sourceImage" width="400" />
-            </div>
-        </div>
-    </div>
-
     <!-- Source image process section -->
     <script type="text/javascript">
         function processImage(){
@@ -180,5 +106,80 @@
         //get blob as container name
         $result = $blobclient->listBlobs($containername, $listblob);
     ?>
+
+    <!-- Form upload image section -->
+    <h2>Form Upload File Image | Azure Blob Storage</h2>
+    <div class="row">
+        <div class="col-md-12">
+            <label for="uploadlabel">Upload Image</label>
+            <form action="index.php" enctype="multipart/form-data" method="post">
+                <input type="file" name="image">
+                <input type="submit" name="upload" value="Upload Image">
+            </form>
+        </div>
+    </div>
+
+    <!-- Form show image from blob storage section -->
+    <h2>List Uploaded Data | Azure Blob Storage</h2>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>No. </th>
+                        <th>Nama File</th>
+                        <th>Link Url Image</th>
+                        <th>Preview</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <?php 
+                        $i = 1;
+                        do {
+                            foreach ($result->getBlobs() as $blobfile){
+                        ?>
+                            <tr>
+                                <td><?php echo $i; ?></td>
+                                <td><?php echo $blobfile->getName();?></td>
+                                <td><?php echo $blobfile->getUrl();?></td>
+                                <td width="100" height="100"><img src="<?php echo $blobfile->getUrl(); ?>" alt=""></td>
+                                <td>
+                                    <form action="index.php" method="post">
+                                        <input type="hidden" name="imageurl" value="<?php echo $blobfile->getUrl(); ?>">
+                                        <input type="submit" class="btn btn-primary" name="analyze" value="Analyze Image">
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php 
+                            $i++;
+                            }
+                            $listblob->setContinuationToken($result->getContinuationToken());
+                        } while($result->getContinuationToken());
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Form Show response from Computer Vision -->
+    <h2>Show Respon From Analyze | Computer Vision</h2>
+    <div class="row">
+        <div id="wrapper" style="width:1020px; display:table;">
+            <div id="jsonOutput" style="width:600px; display:table-cell;">
+                Response:
+                <br><br>
+                <textarea id="responseTextArea" class="UIInput"
+                    style="width:580px; height:400px;"></textarea>
+            </div>
+            <div id="imageDiv" style="width:420px; display:table-cell;">
+                Source image:
+                <br><br>
+                <img id="sourceImage" width="400" />
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
