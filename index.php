@@ -1,53 +1,183 @@
+<?php 
+
+    //include vendor folder and random_string file
+    require_once 'vendor/autoload.php';
+    require_once 'random_string.php';
+
+    //import Microsoft Azure Storage 
+    use MicrosoftAzure\Storage\Blob\BlobRestProxy;
+    use MicrosoftAzure\Storage\Common\Exceptions\ServiceException;
+    use MicrosoftAzure\Storage\Blob\Models\ListBlobsOptions;
+    use MicrosoftAzure\Storage\Blob\Models\CreateContainerOptions;
+    use MicrosoftAzure\Storage\Blob\Models\PublicAccessType;
+
+    //create connection string
+    $connect = "DefaultEndpointsProtocol=https;AccountName=fansdev;AccountKey=QFChV4ExeYoe/GCcpbnAagmKnFOvW8y7Lu3dwjyhhnrk/u38o9rLyjoFNXtMLPAO4dKDayHl+nxQPn+jtwKpow==;EndpointSuffix=core.windows.net";
+
+    //create container name
+    $containername = "fansdev".generateRandomString();
+
+    // Create blob client.
+    $blobclient = BlobRestProxy::createBlobService($connect);
+
+    if (isset($_POST['upload'])){
+        $filename = strtolower($_FILES['image']['name']);
+        $contentfile = fopen($_FILES['image']['tmp_name'], 'r');
+
+        //upload blob file
+        $blobclient->createBlockBlob($containername, $filename, $contentfile);
+
+        //redirect using header
+        header("Location : index.php");
+    } else if (isset($_POST['analyze'])){
+        if (isset($_POST['imageurl'])){
+            $imageurl = $_POST['imageurl'];
+        } else {
+            alert('');
+        }
+    }
+
+    //get blob list from blob storage
+    $listblob = new ListBlobsOptions();
+    $listblob->setPrefix("fansdev");
+
+    //get blob as container name
+    $result = $blobclient->listBlobs($containername, $listblob);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Main Page - Submission Azure 1</title>
+    <title>Azure Academy | Menjadi Azure Cloud Developer</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
-<body>
-    <h1>List Data</h1>
-    <hr>
-    <a href="add.php">Tambah Data</a>
-    <table>
-        <thead>
-            <tr>
-                <th>No. </th>
-                <th>Username</th>
-                <th>Full Name</th>
-                <th>Job Title</th>
-                <th colspan="2">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php 
-                include 'connect.php';
-                $no = 1;
-                $selectquery = "SELECT * FROM user";
-                $query = $connect->query($selectquery);
-                $data = $query->fetchAll();
 
-                if (count($data) == 0) { ?>
-                    <tr colspan="6">No data on Database</tr>
-                <?php } else if (count($data) > 0){ 
-                    foreach($data as $value) {
-                    ?>
+<body>
+
+    <!-- Form upload image section -->
+    <h2>Form Upload File Image | Azure Blob Storage</h2>
+    <div class="row">
+        <div>
+            <label for="uploadlabel">Upload Image</label>
+            <form action="index.php" enctype="multipart/form-data" method="post">
+                <input type="file" name="image">
+                <input type="submit" name="upload" value="Upload Image">
+            </form>
+        </div>
+    </div>
+
+    <!-- Form show image from blob storage section -->
+    <h2>List Uploaded Data | Azure Blob Storage</h2>
+    <div class="row">
+        <div>
+            <table class="table table-hover">
+                <thead>
                     <tr>
-                        <td>$no++</td>
-                        <td>$value['username']</td>
-                        <td>$value['name']</td>
-                        <td>$value['job']</td>
-                        <td><a href="edit.php?username=<?php echo $value['username'] ?>">Edit</a></td>
-                        <td><a href="delete.php?username=<?php echo value['username'] ?>">Delete</a></td>
+                        <th>No. </th>
+                        <th>Nama File</th>
+                        <th>Link Url Image</th>
+                        <th>Preview</th>
+                        <th>Action</th>
                     </tr>
-                    
-                <?php }
-                }
-            ?>
+                </thead>
+
+                <tbody>
+                    <?php 
+                        $i = 1;
+                        do {
+                            foreach ($result->getBlobs() as $blobfile){
+                        ?>
+                            <tr>
+                                <td><?php echo $i; ?></td>
+                                <td><?php echo $blobfile->getName();?></td>
+                                <td><?php echo $blobfile->getUrl();?></td>
+                                <td width="100" height="100"><img src="<?php echo $blobfile->getUrl(); ?>" alt=""></td>
+                                <td>
+                                    <form action="index.php" method="post">
+                                        <input type="hidden" name="imageurl" value="<?php echo $blobfile->getUrl(); ?>">
+                                        <input type="submit" class="btn btn-primary" name="analyze" value="Analyze Image">
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php 
+                            $i++;
+                            }
+                            $listblob->setContinuationToken($result->getContinuationToken());
+                        } while($result->getContinuationToken());
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Form Show response from Computer Vision -->
+    <h2>Show Respon From Analyze | Computer Vision</h2>
+    <div class="row">
+        <div id="wrapper" style="width:1020px; display:table;">
+            <div id="jsonOutput" style="width:600px; display:table-cell;">
+                Response:
+                <br><br>
+                <textarea id="responseTextArea" class="UIInput"
+                    style="width:580px; height:400px;"></textarea>
+            </div>
+            <div id="imageDiv" style="width:420px; display:table-cell;">
+                Source image:
+                <br><br>
+                <img id="sourceImage" width="400" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Source image process section -->
+    <script type="text/javascript">
+        function processImage(){
+            var subscriptionKey = "db80b96ff6d0481b8525b516a219cfaa";
+            var uriBase = "https://southeastasia.api.cognitive.microsoft.com/vision/v2.0/analyze";
+            var params = {
+                "visualFeatures": "Categories,Description,Color",
+                "details": "",
+                "language": "en",
+            };
+
+            // Display the image.
+            var sourceImageUrl = document.getElementById("inputImage").value;
+            document.querySelector("#sourceImage").src = sourceImageUrl;
             
-            <?php ?>
-        </tbody>
-    </table>
+            // Make the REST API call.
+            $.ajax({
+                url: uriBase + "?" + $.param(params),
+    
+                // Request headers.
+                beforeSend: function(xhrObj){
+                    xhrObj.setRequestHeader("Content-Type","application/json");
+                    xhrObj.setRequestHeader(
+                        "Ocp-Apim-Subscription-Key", subscriptionKey);
+                },
+    
+                type: "POST",
+    
+                // Request body.
+                data: '{"url": ' + '"' + sourceImageUrl + '"}',
+            })
+    
+            .done(function(data) {
+                // Show formatted JSON on webpage.
+                $("#responseTextArea").val(JSON.stringify(data, null, 2));
+            })
+    
+            .fail(function(jqXHR, textStatus, errorThrown) {
+                // Display error message.
+                var errorString = (errorThrown === "") ? "Error. " :
+                    errorThrown + " (" + jqXHR.status + "): ";
+                errorString += (jqXHR.responseText === "") ? "" :
+                    jQuery.parseJSON(jqXHR.responseText).message;
+                alert(errorString);
+            });
+        };
+    </script>
 </body>
 </html>
