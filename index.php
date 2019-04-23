@@ -124,6 +124,7 @@
         </div>
     </div>
 
+    <hr>
     <!-- Form show image from blob storage section -->
     <h2>List Uploaded Data | Azure Blob Storage</h2>
     <div class="row">
@@ -169,6 +170,7 @@
         </div>
     </div>
     
+    <hr>
     <!-- Form Show response from Computer Vision -->
     <h2>Show Respon From Analyze | Computer Vision</h2>
     <div class="row">
