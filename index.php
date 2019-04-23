@@ -14,7 +14,7 @@
     <!-- Form upload image section -->
     <h2>Form Upload File Image | Azure Blob Storage</h2>
     <div class="row">
-        <div>
+        <div class="col-md-12">
             <label for="uploadlabel">Upload Image</label>
             <form action="index.php" enctype="multipart/form-data" method="post">
                 <input type="file" name="image">
@@ -26,7 +26,7 @@
     <!-- Form show image from blob storage section -->
     <h2>List Uploaded Data | Azure Blob Storage</h2>
     <div class="row">
-        <div>
+        <div class="col-md-12">
             <table class="table table-hover">
                 <thead>
                     <tr>
