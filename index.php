@@ -82,6 +82,16 @@
         // Create blob client.
         $blobclient = BlobRestProxy::createBlobService($connect);
 
+        $containeroptions = new CreateContainerOptions();
+        $containeroptions->setPublicAccess(PublicAccessType::CONTAINER_AND_BLOBS);
+
+        // Menetapkan metadata dari container.
+        $containeroptions->addMetaData("key1", "value1");
+        $containeroptions->addMetaData("key2", "value2");
+
+        //create container to storage
+        $blobclient->createContainer($containername, $containeroptions);
+
         if (isset($_POST['upload'])){
             $filename = strtolower($_FILES['image']['name']);
             $contentfile = fopen($_FILES['image']['tmp_name'], 'r');
@@ -100,9 +110,6 @@
         //get blob list from blob storage
         $listblob = new ListBlobsOptions();
         $listblob->setPrefix("fansdev");
-
-        //get blob as container name
-        $result = $blobclient->listBlobs($containername, $listblob);
     ?>
 
     <!-- Form upload image section -->
@@ -136,6 +143,7 @@
                     <?php 
                         $i = 1;
                         do {
+                            $result = $blobclient->listBlobs($containername, $listblob);
                             foreach ($result->getBlobs() as $blobfile){
                         ?>
                             <tr>
