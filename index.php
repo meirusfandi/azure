@@ -76,7 +76,7 @@
             };
 
             // Display the image.
-            var sourceImageUrl = document.getElementById("inputImage").value;
+            var sourceImageUrl = document.getElementById("imageurl").value;
             document.querySelector("#sourceImage").src = sourceImageUrl;
             
             // Make the REST API call.
@@ -110,6 +110,10 @@
                 alert(errorString);
             });
         };
+
+        function uploadImage(){
+            
+        };
     </script>
 
     <!-- Form upload image section -->
@@ -119,7 +123,7 @@
             <label for="uploadlabel">Upload Image</label>
             <form action="index.php" enctype="multipart/form-data" method="post">
                 <input type="file" name="image">
-                <input type="submit" name="upload" value="Upload Image">
+                <input type="submit" name="upload" value="Upload Image" class="btn btn-primary" onclick="uploadImage()">
             </form>
         </div>
     </div>
@@ -153,10 +157,8 @@
                                 <td><?php echo $blobfile->getUrl();?></td>
                                 <td width="100" height="100"><img src="<?php echo $blobfile->getUrl(); ?>" alt=""></td>
                                 <td>
-                                    <form action="index.php" method="post">
-                                        <input type="hidden" name="imageurl" value="<?php echo $blobfile->getUrl(); ?>">
-                                        <input type="submit" class="btn btn-primary" name="analyze" value="Analyze Image">
-                                    </form>
+                                    <input type="hidden" id="imageurl" name="imageurl" value="<?php echo $blobfile->getUrl(); ?>">
+                                    <button onclick="processImage()">Analyze Image</button>
                                 </td>
                             </tr>
                         <?php 
