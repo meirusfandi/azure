@@ -88,7 +88,7 @@
     <!-- Source image process section -->
     <script type="text/javascript">
         function processImage(){
-            var subscriptionKey = "db80b96ff6d0481b8525b516a219cfaa";
+            var subscriptionKey = "2e2671970d6b469399ac05285a925f3e";
             var uriBase = "https://southeastasia.api.cognitive.microsoft.com/vision/v2.0/analyze";
             var params = {
                 "visualFeatures": "Categories,Description,Color",
@@ -148,7 +148,7 @@
         use MicrosoftAzure\Storage\Blob\Models\PublicAccessType;
 
         //create connection string
-        $connect = "DefaultEndpointsProtocol=https;AccountName=fansdev;AccountKey=QFChV4ExeYoe/GCcpbnAagmKnFOvW8y7Lu3dwjyhhnrk/u38o9rLyjoFNXtMLPAO4dKDayHl+nxQPn+jtwKpow==;EndpointSuffix=core.windows.net";
+        $connect = "DefaultEndpointsProtocol=https;AccountName=meirusfandiwev;AccountKey=vwhIwbU1kaFKEZMFWTd5ng21ux0PA8P8XRgUgo6atp8xbKPYFStk5vz+7/lTIG8SyZ/37LGfYqQxqbsX/EIwCQ==;EndpointSuffix=core.windows.net";
 
         //create container name
         $containername = "fansdev".generateRandomString();
