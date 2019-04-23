@@ -172,17 +172,19 @@
     <!-- Form Show response from Computer Vision -->
     <h2>Show Respon From Analyze | Computer Vision</h2>
     <div class="row">
-        <div id="wrapper" style="width:1020px; display:table;">
-            <div id="jsonOutput" style="width:600px; display:table-cell;">
-                Response:
-                <br><br>
-                <textarea id="responseTextArea" class="UIInput"
-                    style="width:580px; height:400px;"></textarea>
-            </div>
-            <div id="imageDiv" style="width:420px; display:table-cell;">
-                Source image:
-                <br><br>
-                <img id="sourceImage" width="400" />
+        <div class="col-md-12">
+            <div id="wrapper" style="width:1020px; display:table;">
+                <div id="jsonOutput" style="width:600px; display:table-cell;">
+                    Response:
+                    <br><br>
+                    <textarea id="responseTextArea" class="UIInput"
+                        style="width:580px; height:400px;"></textarea>
+                </div>
+                <div id="imageDiv" style="width:420px; display:table-cell;">
+                    Source image:
+                    <br><br>
+                    <img id="sourceImage" width="400" />
+                </div>
             </div>
         </div>
     </div>
