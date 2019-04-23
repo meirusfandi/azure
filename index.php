@@ -94,8 +94,6 @@
         } else if (isset($_POST['analyze'])){
             if (isset($_POST['imageurl'])){
                 $imageurl = $_POST['imageurl'];
-            } else {
-                alert('');
             }
         }
 
