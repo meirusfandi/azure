@@ -11,54 +11,6 @@
 
 <body>
 
-    <!-- Source image process section -->
-    <script type="text/javascript">
-        function processImage(){
-            var subscriptionKey = "2e2671970d6b469399ac05285a925f3e";
-            var uriBase = "https://southeastasia.api.cognitive.microsoft.com/vision/v2.0/analyze";
-            var params = {
-                "visualFeatures": "Categories,Description,Color",
-                "details": "",
-                "language": "en",
-            };
-
-            // Display the image.
-            var sourceImageUrl = document.getElementById("inputImage").value;
-            document.querySelector("#sourceImage").src = sourceImageUrl;
-            
-            // Make the REST API call.
-            $.ajax({
-                url: uriBase + "?" + $.param(params),
-    
-                // Request headers.
-                beforeSend: function(xhrObj){
-                    xhrObj.setRequestHeader("Content-Type","application/json");
-                    xhrObj.setRequestHeader(
-                        "Ocp-Apim-Subscription-Key", subscriptionKey);
-                },
-    
-                type: "POST",
-    
-                // Request body.
-                data: '{"url": ' + '"' + sourceImageUrl + '"}',
-            })
-    
-            .done(function(data) {
-                // Show formatted JSON on webpage.
-                $("#responseTextArea").val(JSON.stringify(data, null, 2));
-            })
-    
-            .fail(function(jqXHR, textStatus, errorThrown) {
-                // Display error message.
-                var errorString = (errorThrown === "") ? "Error. " :
-                    errorThrown + " (" + jqXHR.status + "): ";
-                errorString += (jqXHR.responseText === "") ? "" :
-                    jQuery.parseJSON(jqXHR.responseText).message;
-                alert(errorString);
-            });
-        };
-    </script>
-
     <!-- PHP handling section -->
     <?php 
 
@@ -111,6 +63,54 @@
         $listblob = new ListBlobsOptions();
         $listblob->setPrefix("fansdev");
     ?>
+
+    <!-- Source image process section -->
+    <script type="text/javascript">
+        function processImage(){
+            var subscriptionKey = "2e2671970d6b469399ac05285a925f3e";
+            var uriBase = "https://southeastasia.api.cognitive.microsoft.com/vision/v2.0/analyze";
+            var params = {
+                "visualFeatures": "Categories,Description,Color",
+                "details": "",
+                "language": "en",
+            };
+
+            // Display the image.
+            var sourceImageUrl = document.getElementById("inputImage").value;
+            document.querySelector("#sourceImage").src = sourceImageUrl;
+            
+            // Make the REST API call.
+            $.ajax({
+                url: uriBase + "?" + $.param(params),
+    
+                // Request headers.
+                beforeSend: function(xhrObj){
+                    xhrObj.setRequestHeader("Content-Type","application/json");
+                    xhrObj.setRequestHeader(
+                        "Ocp-Apim-Subscription-Key", subscriptionKey);
+                },
+    
+                type: "POST",
+    
+                // Request body.
+                data: '{"url": ' + '"' + sourceImageUrl + '"}',
+            })
+    
+            .done(function(data) {
+                // Show formatted JSON on webpage.
+                $("#responseTextArea").val(JSON.stringify(data, null, 2));
+            })
+    
+            .fail(function(jqXHR, textStatus, errorThrown) {
+                // Display error message.
+                var errorString = (errorThrown === "") ? "Error. " :
+                    errorThrown + " (" + jqXHR.status + "): ";
+                errorString += (jqXHR.responseText === "") ? "" :
+                    jQuery.parseJSON(jqXHR.responseText).message;
+                alert(errorString);
+            });
+        };
+    </script>
 
     <!-- Form upload image section -->
     <h2>Form Upload File Image | Azure Blob Storage</h2>
