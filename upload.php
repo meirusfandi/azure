@@ -66,7 +66,7 @@
                 
                 <?php 
 
-                do{
+                // do{
                     $result = $blobclient->listBlobs($containername, $bloblists);
                     foreach ($result->getBlobs() as $blob)
                     {
@@ -75,7 +75,7 @@
                 
                     }
                     $bloblists->setContinuationToken($result->getContinuationToken());
-                } while($result->getContinuationToken());
+                // } while($result->getContinuationToken());
                 
                 $blob = $blobclient->getBlob($containername, $name);
                 fpassthru($blob->getContentStream());
