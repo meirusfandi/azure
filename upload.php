@@ -54,7 +54,6 @@
 
                 $urlImage = "https://meirusfandiwev.blob.core.windows.net/".$containername."/".$filename;
 
-                echo "These image from upload: ";
                 echo "<br/>";
                 echo "The url image is : https://meirusfandiwev.blob.core.windows.net/".$containername."/".$filename;
                 echo "<br/>";
@@ -62,15 +61,13 @@
 
                 ?>
 
-                <form action="analyze.php" method="post">
-                    <input type="text" name="inputImage" id="inputImage" width="400" value="<?php echo  $urlImage;?>" />
-                    <input type="submit" name="analyze" value="Analyze it" class="btn btn-primary">
-                </form>
+                <input type="text" name="inputImage" id="inputImage" width="400" value="<?php echo  $urlImage;?>" />
+                <input type="submit" name="analyze" value="Analyze it" class="btn btn-primary">
                 
                 <?php 
 
                 do{
-                    $result = $blob_client->listBlobs($containername, $bloblists);
+                    $result = $blobclient->listBlobs($containername, $bloblists);
                     foreach ($result->getBlobs() as $blob)
                     {
 
@@ -80,7 +77,7 @@
                     $bloblists->setContinuationToken($result->getContinuationToken());
                 } while($result->getContinuationToken());
                 
-                $blob = $blob_client->getBlob($containername, $name);
+                $blob = $blobclient->getBlob($containername, $name);
                 fpassthru($blob->getContentStream());
             }catch(ServiceException $e){
                 $code = $e->getCode();
