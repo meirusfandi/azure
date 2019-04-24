@@ -58,7 +58,16 @@
                 echo "<br/>";
                 echo "The url image is : https://meirusfandiwev.blob.core.windows.net/".$containername."/".$filename;
                 echo "<br/>";
-                echo '<img src="'.$urlImage.'" width="200" height="200"/>';
+                echo '<img src="'.$urlImage.'" width="400" height="400"/>';
+
+                ?>
+
+                <form action="analyze.php" method="post">
+                    <input type="text" name="inputImage" id="inputImage" width="400" value="<?php echo  $urlImage;?>" />
+                    <input type="submit" name="analyze" value="Analyze it" class="btn btn-primary">
+                </form>
+                
+                <?php 
 
                 do{
                     $result = $blob_client->listBlobs($containername, $bloblists);
@@ -71,14 +80,6 @@
                     $bloblists->setContinuationToken($result->getContinuationToken());
                 } while($result->getContinuationToken());
                 
-                ?>
-
-                <form action="analyze.php" method="post">
-                    <input type="text" name="inputImage" id="inputImage" width="400" value="<?php echo  $urlImage;?>" />
-                    <input type="submit" name="analyze" id="analyze" value="Analyze it">
-                </form>
-                
-                <?php 
                 $blob = $blob_client->getBlob($containername, $name);
                 fpassthru($blob->getContentStream());
             }catch(ServiceException $e){
