@@ -15,8 +15,7 @@
     <h2>Form Upload File Image | Azure Blob Storage</h2>
     <div class="row">
         <div class="col-md-12">
-            <label for="uploadlabel">Upload Image</label>
-            <form action="index.php" enctype="multipart/form-data" method="post">
+            <form action="upload.php" enctype="multipart/form-data" method="post">
                 <input type="file" name="image">
                 <input type="submit" name="upload" value="Upload Image" class="btn btn-primary" onclick="uploadImage()">
             </form>
