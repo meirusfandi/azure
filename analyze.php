@@ -11,6 +11,7 @@
 <body>
     <?php 
         if (isset($_POST['analyze'])){
+            $url = isset($_POST['inputImage']);
             processImage();
         }
     ?>
@@ -26,7 +27,7 @@
             };
 
             // Display the image.
-            var sourceImageUrl = document.getElementById("imageurl").value;
+            var sourceImageUrl = <?php echo $url; ?>;
             document.querySelector("#sourceImage").src = sourceImageUrl;
             
             // Make the REST API call.
@@ -85,6 +86,6 @@
             </div>
         </div>
     </div>
-    
+
 </body>
 </html>
