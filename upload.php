@@ -59,9 +59,10 @@
                 echo "<br/>";
                 echo '<img src="'.$urlImage.'" width="400" height="400"/>';
 
+                echo $urlImage." hmmm<br>";
                 ?>
 
-                <?php "url image is ".$urlImage; ?> <br>
+                
                 <form action="analyze.php">
                     <input type="text" name="inputImage" id="inputImage" width="400" value="<?php echo  $urlImage;?>" >
                     <input type="submit" name="analyze" value="Analyze it" class="btn btn-primary">
