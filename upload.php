@@ -62,8 +62,8 @@
                 ?>
 
                 <form action="analyze.php">
-                    <?php "url image is ".$urlImage; ?>
-                    <input type="text" name="inputImage" id="inputImage" width="400" value="<?php echo  $urlImage;?>" />
+                    <?php "url image is ".$urlImage; ?> <br>
+                    <input type="text" name="inputImage" id="inputImage" width="400" value="<?php echo  $urlImage;?>" /><br>
                     <input type="submit" name="analyze" value="Analyze it" class="btn btn-primary">
                 </form>
                 

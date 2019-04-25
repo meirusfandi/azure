@@ -67,8 +67,8 @@
     <h2>Show Respon From Analyze | Computer Vision</h2>
     <div class="row">
         <div class="col-md-12">
-            <?php echo "The image URL is".$url; ?>
-            <input type="hidden" name="imageurl" value="<?php echo $url; ?>">
+            <?php echo "The image URL is".$url; ?><br>
+            <input type="hidden" name="imageurl" value="<?php echo $url; ?>"><br>
             <button onclick="processImage()" class="btn btn-primary">Analyze it!</button>
         </div>
     </div>
