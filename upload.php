@@ -61,13 +61,16 @@
 
                 ?>
 
-                <input type="text" name="inputImage" id="inputImage" width="400" value="<?php echo  $urlImage;?>" />
-                <input type="submit" name="analyze" value="Analyze it" class="btn btn-primary">
+                <form action="analyze.php">
+                    <input type="text" name="inputImage" id="inputImage" width="400" value="<?php echo  $urlImage;?>" />
+                    <input type="submit" name="analyze" value="Analyze it" class="btn btn-primary">
+                </form>
                 
                 <?php 
 
-                // do{
+                do{
                     $result = $blobclient->listBlobs($containername, $bloblists);
+                    echo $result.sizeof();
                     foreach ($result->getBlobs() as $blob)
                     {
 
@@ -75,7 +78,7 @@
                 
                     }
                     $bloblists->setContinuationToken($result->getContinuationToken());
-                // } while($result->getContinuationToken());
+                } while($result->getContinuationToken());
                 
                 $blob = $blobclient->getBlob($containername, $name);
                 fpassthru($blob->getContentStream());
