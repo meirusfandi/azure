@@ -9,11 +9,6 @@
     <link rel="stylesheet" href="bootstrap.min.css">
 </head>
 <body>
-    <?php 
-        if (isset($_POST['analyze'])){
-            processImage();
-        }
-    ?>
     <!-- Source image process section -->
     <script type="text/javascript">
         function processImage(){
@@ -60,14 +55,23 @@
                 alert(errorString);
             });
         };
-
-        function uploadImage(){
-            
-        };
     </script>
+
+    <?php 
+        if (isset($_POST["analyze"])){
+            $url = isset($_POST["inputImage"]);
+        }
+    ?>  
 
     <!-- Form Show response from Computer Vision -->
     <h2>Show Respon From Analyze | Computer Vision</h2>
+    <div class="row">
+        <div class="col-md-12">
+            <input type="hidden" name="imageurl" value="<?php echo $url; ?>">
+            <input type="button" onclick="processImage()" class="btn btn-primary">
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-md-12">
             <div id="wrapper" style="width:1020px; display:table;">
