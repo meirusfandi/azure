@@ -60,22 +60,13 @@
                 echo '<img src="'.$urlImage.'" width="400" height="400"/>';
 
                 echo $urlImage." hmmm<br>";
-                ?>
-
-                
-                <form action="analyze.php">
-                    <input type="text" name="inputImage" id="inputImage" width="400" value="<?php echo  $urlImage;?>" >
-                    <input type="submit" name="analyze" value="Analyze it" class="btn btn-primary">
-                </form>
-                
-                <?php 
 
                 do{
                     $result = $blobclient->listBlobs($containername, $bloblists);
-                    echo $result.sizeof();
+                    echo "sampe kesini ?";
                     foreach ($result->getBlobs() as $blob)
                     {
-
+                        echo "apakah disini ?";
                         echo '<img src="'.$blob->getUrl().'" width="400" height="400"/>';
                 
                     }
