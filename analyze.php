@@ -68,7 +68,7 @@
     <div class="row">
         <div class="col-md-12">
             <input type="hidden" name="imageurl" value="<?php echo $url; ?>">
-            <input type="button" onclick="processImage()" class="btn btn-primary">
+            <button onclick="processImage()" class="btn btn-primary">Analyze it!</button>
         </div>
     </div>
 
