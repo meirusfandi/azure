@@ -64,6 +64,7 @@
                 do{
                     $result = $blobclient->listBlobs($containername, $bloblists);
                     echo "sampe kesini ?";
+                    echo "nilai result".$result.tostring();
                     foreach ($result->getBlobs() as $blob)
                     {
                         echo "apakah disini ?";
