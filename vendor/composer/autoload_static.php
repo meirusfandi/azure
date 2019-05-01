@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitf96ace4d7d3656b735334ffb89640756
+class ComposerStaticInit9b5dc85f2ef9174e796f73323494e780
 {
     public static $files = array (
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
@@ -14,14 +14,17 @@ class ComposerStaticInitf96ace4d7d3656b735334ffb89640756
     );
 
     public static $prefixLengthsPsr4 = array (
+        'W' => 
+        array (
+            'WindowsAzure\\' => 13,
+        ),
         'P' => 
         array (
             'Psr\\Http\\Message\\' => 17,
         ),
         'M' => 
         array (
-            'MicrosoftAzure\\Storage\\Common\\' => 30,
-            'MicrosoftAzure\\Storage\\Blob\\' => 28,
+            'MicrosoftAzure\\Storage\\' => 23,
         ),
         'G' => 
         array (
@@ -29,20 +32,24 @@ class ComposerStaticInitf96ace4d7d3656b735334ffb89640756
             'GuzzleHttp\\Promise\\' => 19,
             'GuzzleHttp\\' => 11,
         ),
+        'F' => 
+        array (
+            'Firebase\\JWT\\' => 13,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'WindowsAzure\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/microsoft/windowsazure/src',
+        ),
         'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
-        'MicrosoftAzure\\Storage\\Common\\' => 
+        'MicrosoftAzure\\Storage\\' => 
         array (
-            0 => __DIR__ . '/..' . '/microsoft/azure-storage-common/src/Common',
-        ),
-        'MicrosoftAzure\\Storage\\Blob\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/microsoft/azure-storage-blob/src/Blob',
+            0 => __DIR__ . '/..' . '/microsoft/azure-storage/src',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (
@@ -56,13 +63,63 @@ class ComposerStaticInitf96ace4d7d3656b735334ffb89640756
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
         ),
+        'Firebase\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
+        ),
+    );
+
+    public static $prefixesPsr0 = array (
+        'P' => 
+        array (
+            'PEAR' => 
+            array (
+                0 => __DIR__ . '/..' . '/pear/pear_exception',
+            ),
+        ),
+        'M' => 
+        array (
+            'Mail_mimeDecode' => 
+            array (
+                0 => __DIR__ . '/..' . '/pear/mail_mime-decode',
+            ),
+            'Mail' => 
+            array (
+                0 => __DIR__ . '/..' . '/pear/mail_mime',
+            ),
+        ),
+        'H' => 
+        array (
+            'HTTP_Request2' => 
+            array (
+                0 => __DIR__ . '/..' . '/pear/http_request2',
+            ),
+        ),
+        'C' => 
+        array (
+            'Console' => 
+            array (
+                0 => __DIR__ . '/..' . '/pear/console_getopt',
+            ),
+        ),
+    );
+
+    public static $fallbackDirsPsr0 = array (
+        0 => __DIR__ . '/..' . '/pear/pear-core-minimal/src',
+    );
+
+    public static $classMap = array (
+        'Net_URL2' => __DIR__ . '/..' . '/pear/net_url2/Net/URL2.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitf96ace4d7d3656b735334ffb89640756::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitf96ace4d7d3656b735334ffb89640756::$prefixDirsPsr4;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit9b5dc85f2ef9174e796f73323494e780::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit9b5dc85f2ef9174e796f73323494e780::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit9b5dc85f2ef9174e796f73323494e780::$prefixesPsr0;
+            $loader->fallbackDirsPsr0 = ComposerStaticInit9b5dc85f2ef9174e796f73323494e780::$fallbackDirsPsr0;
+            $loader->classMap = ComposerStaticInit9b5dc85f2ef9174e796f73323494e780::$classMap;
 
         }, null, ClassLoader::class);
     }
