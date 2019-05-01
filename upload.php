@@ -38,7 +38,7 @@
         $containeroptions->addMetaData("key2", "value2");
 
         //create container to storage
-        $blobclient->createContainer($containername, $containeroptions);
+        // $blobclient->createContainer($containername, $containeroptions);
 
         if (isset($_POST['upload'])){
             try{
