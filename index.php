@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<?php 
+    <?php 
         require_once 'vendor/autoload.php';
 
         //import Microsoft Azure Storage 
@@ -93,7 +93,7 @@
             });
         };
     </script>
-    
+
     <div class="row">
         <!-- Main Upload File Section -->
         <div>
@@ -108,48 +108,44 @@
         <hr>
         <!-- Main View All Files Section -->
         <div>
-            <div>
-                <h2>Image From Blob Storage</h2>
-                <form action="index.php" method="post">
-                    <input type="submit" name="loadImage" value="Refresh">
-                </form>
-                <table class="table-hover">
-                    <!-- Head table section -->
-                    <thead>
-                        <th>No. </th>
-                        <th>File Name</th>
-                        <th>File URL</th>
-                        <th>Preview</th>
-                        <th>Action</th>
-                    </thead>
-                    <!-- Body table section -->
-                    <tbody>
-                        <?php 
-                            $i = 0;
-                            do {
-                                foreach ($result->listBlobs() as $blob){
-
+            <h2>Image From Blob Storage</h2>
+            <form action="index.php" method="post">
+                <input type="submit" name="loadImage" value="Refresh">
+            </form>
+            <table class="table-hover">
+                <!-- Head table section -->
+                <thead>
+                    <th>No. </th>
+                    <th>File Name</th>
+                    <th>File URL</th>
+                    <th>Preview</th>
+                    <th>Action</th>
+                </thead>
+                <!-- Body table section -->
+                <tbody>
+                    <?php 
+                        $i = 0;
+                        do {
+                            foreach ($result->listBlobs() as $blob){
                         ?>
-                                    <tr>
-                                        <td><?php echo ++$i; ?></td>
-                                        <td><?php echo $blob->getName(); ?></td>
-                                        <td><?php echo $blob->getUrl(); ?></td>
-                                        <td width="200" height="200"><img src="<?php echo $blob->getUrl(); ?>" alt="<?php echo $blob->getName(); ?>"></td>
-                                        <td>
-                                        <input type="hidden" name="imageUrl" id="imageUrl"
-                                            value="<?php echo $blob->getUrl(); ?>"/>
-                                        <button onclick="processImage()">Analyze image</button>
-                                        </td>
-                                    </tr>
+                            <tr>
+                                <td><?php echo ++$i; ?></td>
+                                <td><?php echo $blob->getName(); ?></td>
+                                <td><?php echo $blob->getUrl(); ?></td>
+                                <td width="200" height="200"><img src="<?php echo $blob->getUrl(); ?>" alt="<?php echo $blob->getName(); ?>"></td>
+                                <td>
+                                    <input type="hidden" name="imageUrl" id="imageUrl"
+                                    value="<?php echo $blob->getUrl(); ?>"/>
+                                    <button onclick="processImage()">Analyze image</button>
+                                </td>
+                            </tr>
                         <?php
-                                } $listblob->setContinuationToken($result->getContinuationToken());
-                            } while ($result->getContinuationToken());
-
-                        ?>
+                            } $listblob->setContinuationToken($result->getContinuationToken());
+                        } while ($result->getContinuationToken());
+                    ?>
                         
-                    </tbody>
-                </table>
-            </div>
+                </tbody>
+            </table>
         </div>
         <hr>
         <!-- Main View Analyze Image Section -->
