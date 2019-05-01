@@ -13,7 +13,6 @@
 
         //include vendor folder and random_string file
         require_once 'vendor/autoload.php';
-        require_once 'random_string.php';
 
         //import Microsoft Azure Storage 
         use MicrosoftAzure\Storage\Blob\BlobRestProxy;
@@ -26,7 +25,7 @@
         $connect = "DefaultEndpointsProtocol=https;AccountName=meirusfandiwev;AccountKey=vwhIwbU1kaFKEZMFWTd5ng21ux0PA8P8XRgUgo6atp8xbKPYFStk5vz+7/lTIG8SyZ/37LGfYqQxqbsX/EIwCQ==;EndpointSuffix=core.windows.net";
 
         //create container name
-        $containername = "fansdev".generateRandomString();
+        $containername = "fansdev";
 
         // Create blob client.
         $blobclient = BlobRestProxy::createBlobService($connect);
