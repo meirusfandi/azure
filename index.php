@@ -8,6 +8,92 @@
     <script src="jquery.min.js" type="text/javascript"></script>
 </head>
 <body>
+
+<?php 
+        require_once 'vendor/autoload.php';
+
+        //import Microsoft Azure Storage 
+        use MicrosoftAzure\Storage\Blob\BlobRestProxy;
+        use MicrosoftAzure\Storage\Common\Exceptions\ServiceException;
+        use MicrosoftAzure\Storage\Blob\Models\ListBlobsOptions;
+        use MicrosoftAzure\Storage\Blob\Models\CreateContainerOptions;
+        use MicrosoftAzure\Storage\Blob\Models\PublicAccessType;
+
+        $connect = "DefaultEndpointsProtocol=https;AccountName=meirusfandiwev;AccountKey=vwhIwbU1kaFKEZMFWTd5ng21ux0PA8P8XRgUgo6atp8xbKPYFStk5vz+7/lTIG8SyZ/37LGfYqQxqbsX/EIwCQ==;EndpointSuffix=core.windows.net";
+        $container = "meirusfandi";
+        $blobs = BlobRestProxy::createBlobService($connect);
+
+        if (isset($_POST['upload'])){
+            try {
+                $file = strtolower($_FILES['file']['name']);
+                $content = fopen($_FILES['file']['tmp_name'], "r");
+
+                // upload blob
+                $blobs->createBlockBlob($container, $file, $content);
+                echo "Upload Success";
+            }catch(ServiceException $e){
+                $code = $e->getCode();
+                $error_message = $e->getMessage();
+                echo $code.": ".$error_message."<br />";
+            }catch(InvalidArgumentTypeException $e){
+                $code = $e->getCode();
+                $error_message = $e->getMessage();
+                echo $code.": ".$error_message."<br />";
+            }
+        } else if (isset($_POST['loadImage'])){
+            $listblob = new ListBlobsOptions();
+            $listblob->setPrefix("");
+            $result = $blobs->listBlobs($container, $listblob);
+        }
+    ?>
+
+    <script type="text/javascript"> 
+        function processImage(){
+            var subscriptionKey = "2e2671970d6b469399ac05285a925f3e";
+            var uriBase = "https://southeastasia.api.cognitive.microsoft.com/vision/v2.0/analyze";
+            var params = {
+                "visualFeatures": "Categories,Description,Color",
+                "details": "",
+                "language": "en",
+            };
+
+            // Display the image.
+            var sourceImageUrl = document.getElementById("imageUrl").value;
+            document.querySelector("#sourceImage").src = sourceImageUrl;
+            
+            // Make the REST API call.
+            $.ajax({
+                url: uriBase + "?" + $.param(params),
+    
+                // Request headers.
+                beforeSend: function(xhrObj){
+                    xhrObj.setRequestHeader("Content-Type","application/json");
+                    xhrObj.setRequestHeader(
+                        "Ocp-Apim-Subscription-Key", subscriptionKey);
+                },
+    
+                type: "POST",
+    
+                // Request body.
+                data: '{"url": ' + '"' + sourceImageUrl + '"}',
+            })
+    
+            .done(function(data) {
+                // Show formatted JSON on webpage.
+                $("#responseTextArea").val(JSON.stringify(data, null, 2));
+            })
+    
+            .fail(function(jqXHR, textStatus, errorThrown) {
+                // Display error message.
+                var errorString = (errorThrown === "") ? "Error. " :
+                    errorThrown + " (" + jqXHR.status + "): ";
+                errorString += (jqXHR.responseText === "") ? "" :
+                    jQuery.parseJSON(jqXHR.responseText).message;
+                alert(errorString);
+            });
+        };
+    </script>
+    
     <div class="row">
         <!-- Main Upload File Section -->
         <div>
@@ -93,90 +179,5 @@
             </div>
         </div>
     </div>
-
-    <?php 
-        require_once 'vendor/autoload.php';
-
-        //import Microsoft Azure Storage 
-        use MicrosoftAzure\Storage\Blob\BlobRestProxy;
-        use MicrosoftAzure\Storage\Common\Exceptions\ServiceException;
-        use MicrosoftAzure\Storage\Blob\Models\ListBlobsOptions;
-        use MicrosoftAzure\Storage\Blob\Models\CreateContainerOptions;
-        use MicrosoftAzure\Storage\Blob\Models\PublicAccessType;
-
-        $connect = "DefaultEndpointsProtocol=https;AccountName=meirusfandiwev;AccountKey=vwhIwbU1kaFKEZMFWTd5ng21ux0PA8P8XRgUgo6atp8xbKPYFStk5vz+7/lTIG8SyZ/37LGfYqQxqbsX/EIwCQ==;EndpointSuffix=core.windows.net";
-        $container = "meirusfandi";
-        $blobs = BlobRestProxy::createBlobService($connect);
-
-        if (isset($_POST['upload'])){
-            try {
-                $file = strtolower($_FILES['file']['name']);
-                $content = fopen($_FILES['file']['tmp_name'], "r");
-
-                // upload blob
-                $blobs->createBlockBlob($container, $file, $content);
-                echo "Upload Success";
-            }catch(ServiceException $e){
-                $code = $e->getCode();
-                $error_message = $e->getMessage();
-                echo $code.": ".$error_message."<br />";
-            }catch(InvalidArgumentTypeException $e){
-                $code = $e->getCode();
-                $error_message = $e->getMessage();
-                echo $code.": ".$error_message."<br />";
-            }
-        } else if (isset($_POST['loadImage'])){
-            $listblob = new ListBlobsOptions();
-            $listblob->setPrefix("");
-            $result = $blobs->listBlobs($container, $listblob);
-        }
-    ?>
-
-    <script type="text/javascript"> 
-        function processImage(){
-            var subscriptionKey = "2e2671970d6b469399ac05285a925f3e";
-            var uriBase = "https://southeastasia.api.cognitive.microsoft.com/vision/v2.0/analyze";
-            var params = {
-                "visualFeatures": "Categories,Description,Color",
-                "details": "",
-                "language": "en",
-            };
-
-            // Display the image.
-            var sourceImageUrl = document.getElementById("imageUrl").value;
-            document.querySelector("#sourceImage").src = sourceImageUrl;
-            
-            // Make the REST API call.
-            $.ajax({
-                url: uriBase + "?" + $.param(params),
-    
-                // Request headers.
-                beforeSend: function(xhrObj){
-                    xhrObj.setRequestHeader("Content-Type","application/json");
-                    xhrObj.setRequestHeader(
-                        "Ocp-Apim-Subscription-Key", subscriptionKey);
-                },
-    
-                type: "POST",
-    
-                // Request body.
-                data: '{"url": ' + '"' + sourceImageUrl + '"}',
-            })
-    
-            .done(function(data) {
-                // Show formatted JSON on webpage.
-                $("#responseTextArea").val(JSON.stringify(data, null, 2));
-            })
-    
-            .fail(function(jqXHR, textStatus, errorThrown) {
-                // Display error message.
-                var errorString = (errorThrown === "") ? "Error. " :
-                    errorThrown + " (" + jqXHR.status + "): ";
-                errorString += (jqXHR.responseText === "") ? "" :
-                    jQuery.parseJSON(jqXHR.responseText).message;
-                alert(errorString);
-            });
-        };
-    </script>
 </body>
 </html>
