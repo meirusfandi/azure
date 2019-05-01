@@ -38,25 +38,34 @@
                 <!-- Body table section -->
                 <tbody>
                     <?php 
-                        $i = 0;
-                        do {
-                            foreach ($result->listBlobs() as $blob){
-                        ?>
-                            <tr>
-                                <td><?php echo ++$i; ?></td>
-                                <td><?php echo $blob->getName(); ?></td>
-                                <td><?php echo $blob->getUrl(); ?></td>
-                                <td width="200" height="200"><img src="<?php echo $blob->getUrl(); ?>" alt="<?php echo $blob->getName(); ?>"></td>
-                                <td>
-                                    <input type="hidden" name="imageUrl" id="imageUrl"
-                                    value="<?php echo $blob->getUrl(); ?>"/>
-                                    <button onclick="processImage()">Analyze image</button>
-                                </td>
-                            </tr>
-                        <?php
-                            } $listblob->setContinuationToken($result->getContinuationToken());
-                        } while ($result->getContinuationToken());
+                        if (sizeof($result->getBlobs()) == 0){
                     ?>
+                            <tr>
+                                <td colspan="5">No data on Storage</td>
+                            </tr>
+                    <?php
+                        } else {
+                            $i = 0;
+                            do {
+                                foreach ($result->listBlobs() as $blob){
+                            ?>
+                                <tr>
+                                    <td><?php echo ++$i; ?></td>
+                                    <td><?php echo $blob->getName(); ?></td>
+                                    <td><?php echo $blob->getUrl(); ?></td>
+                                    <td width="200" height="200"><img src="<?php echo $blob->getUrl(); ?>" alt="<?php echo $blob->getName(); ?>"></td>
+                                    <td>
+                                        <input type="hidden" name="imageUrl" id="imageUrl"
+                                        value="<?php echo $blob->getUrl(); ?>"/>
+                                        <button onclick="processImage()">Analyze image</button>
+                                    </td>
+                                </tr>
+                            <?php
+                                } $listblob->setContinuationToken($result->getContinuationToken());
+                            } while ($result->getContinuationToken());
+                        ?>
+                        }
+                        
                         
                 </tbody>
             </table>
