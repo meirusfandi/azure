@@ -1,41 +1,3 @@
-<?php 
-    require_once 'vendor/autoload.php';
-
-    //import Microsoft Azure Storage 
-    use MicrosoftAzure\Storage\Blob\BlobRestProxy;
-    use MicrosoftAzure\Storage\Common\Exceptions\ServiceException;
-    use MicrosoftAzure\Storage\Blob\Models\ListBlobsOptions;
-    use MicrosoftAzure\Storage\Blob\Models\CreateContainerOptions;
-    use MicrosoftAzure\Storage\Blob\Models\PublicAccessType;
-
-    $connect = "DefaultEndpointsProtocol=https;AccountName=meirusfandiwev;AccountKey=vwhIwbU1kaFKEZMFWTd5ng21ux0PA8P8XRgUgo6atp8xbKPYFStk5vz+7/lTIG8SyZ/37LGfYqQxqbsX/EIwCQ==;EndpointSuffix=core.windows.net";
-    $container = "meirusfandi";
-    $blobs = BlobRestProxy::createBlobService($connect);
-
-    if (isset($_POST['upload'])){
-        try {
-            $file = strtolower($_FILES['file']['name']);
-            $content = fopen($_FILES['file']['tmp_name'], "r");
-
-            // upload blob
-            $blobs->createBlockBlob($container, $file, $content);
-            echo "Upload Success";
-        }catch(ServiceException $e){
-            $code = $e->getCode();
-            $error_message = $e->getMessage();
-            echo $code.": ".$error_message."<br />";
-        }catch(InvalidArgumentTypeException $e){
-            $code = $e->getCode();
-            $error_message = $e->getMessage();
-            echo $code.": ".$error_message."<br />";
-        }
-    } else if (isset($_POST['loadImage'])){
-        $listblob = new ListBlobsOptions();
-        $listblob->setPrefix("");
-        $result = $blobs->listBlobs($container, $listblob);
-    }
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -127,6 +89,44 @@
             </div>
         </div>
     </div>
+
+    <?php 
+        require_once 'vendor/autoload.php';
+
+        //import Microsoft Azure Storage 
+        use MicrosoftAzure\Storage\Blob\BlobRestProxy;
+        use MicrosoftAzure\Storage\Common\Exceptions\ServiceException;
+        use MicrosoftAzure\Storage\Blob\Models\ListBlobsOptions;
+        use MicrosoftAzure\Storage\Blob\Models\CreateContainerOptions;
+        use MicrosoftAzure\Storage\Blob\Models\PublicAccessType;
+
+        $connect = "DefaultEndpointsProtocol=https;AccountName=meirusfandiwev;AccountKey=vwhIwbU1kaFKEZMFWTd5ng21ux0PA8P8XRgUgo6atp8xbKPYFStk5vz+7/lTIG8SyZ/37LGfYqQxqbsX/EIwCQ==;EndpointSuffix=core.windows.net";
+        $container = "meirusfandi";
+        $blobs = BlobRestProxy::createBlobService($connect);
+
+        if (isset($_POST['upload'])){
+            try {
+                $file = strtolower($_FILES['file']['name']);
+                $content = fopen($_FILES['file']['tmp_name'], "r");
+
+                // upload blob
+                $blobs->createBlockBlob($container, $file, $content);
+                echo "Upload Success";
+            }catch(ServiceException $e){
+                $code = $e->getCode();
+                $error_message = $e->getMessage();
+                echo $code.": ".$error_message."<br />";
+            }catch(InvalidArgumentTypeException $e){
+                $code = $e->getCode();
+                $error_message = $e->getMessage();
+                echo $code.": ".$error_message."<br />";
+            }
+        } else if (isset($_POST['loadImage'])){
+            $listblob = new ListBlobsOptions();
+            $listblob->setPrefix("");
+            $result = $blobs->listBlobs($container, $listblob);
+        }
+    ?>
 
     <script type="text/javascript"> 
         function processImage(){
