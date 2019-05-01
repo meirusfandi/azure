@@ -30,12 +30,12 @@
         // Create blob client.
         $blobclient = BlobRestProxy::createBlobService($connect);
 
-        $containeroptions = new CreateContainerOptions();
-        $containeroptions->setPublicAccess(PublicAccessType::CONTAINER_AND_BLOBS);
+        // $containeroptions = new CreateContainerOptions();
+        // $containeroptions->setPublicAccess(PublicAccessType::CONTAINER_AND_BLOBS);
 
-        // Menetapkan metadata dari container.
-        $containeroptions->addMetaData("key1", "value1");
-        $containeroptions->addMetaData("key2", "value2");
+        // // Menetapkan metadata dari container.
+        // $containeroptions->addMetaData("key1", "value1");
+        // $containeroptions->addMetaData("key2", "value2");
 
         //create container to storage
         // $blobclient->createContainer($containername, $containeroptions);
@@ -49,7 +49,7 @@
                 $blobclient->createBlockBlob($containername, $filename, $contentfile);
                 // get list blobs
                 $bloblists = new ListBlobsOptions();
-                $bloblists->setPrefix("meirusfandi");
+                $bloblists->setPrefix("");
 
                 $urlImage = "https://meirusfandiwev.blob.core.windows.net/".$containername."/".$filename;
 
@@ -73,7 +73,7 @@
                     $bloblists->setContinuationToken($result->getContinuationToken());
                 } while($result->getContinuationToken());
                 
-                $blob = $blobclient->getBlob($containername, $name);
+                $blob = $blobclient->getBlob($containername, $filename);
                 fpassthru($blob->getContentStream());
             }catch(ServiceException $e){
                 $code = $e->getCode();
